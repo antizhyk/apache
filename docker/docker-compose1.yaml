@@ -1,0 +1,53 @@
+version: '3'
+services: 
+  db:
+    image: mysql
+    container_name: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: docker_test
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_DATA: /var/lib/mysql
+    networks:
+            - default
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+  php:
+    build: ./docker/php
+    container_name: php
+    ports:
+      - 3000:3000
+    volumes: 
+    - ./code:/var/www/html 
+    environment:
+      MYSQL_HOST: db
+    restart: always
+    links:
+      - db
+      - myadmin
+  myadmin:
+    image: phpmyadmin:5
+    container_name: myadmin
+    ports:
+      - 8181:80
+    links:
+      - db:db
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - 4321:4321
+
+
