@@ -7,7 +7,9 @@ services:
         volumes:
             - ./site1:/var/www/html/
             - ./site2:/var/www/workdir/
-            - ./docker/php/sites-enabled/site1.conf:/etc/apache2/sites-enabled/site1.conf
+            - ./site3:/var/www/product/
+            - ./site4:/var/www/product2/
+            - ./docker/php/sites-enabled/:/etc/apache2/sites-enabled/
         networks:
             - default
 volumes:
