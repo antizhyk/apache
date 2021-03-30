@@ -1,5 +1,12 @@
-AuthType Basic
-AuthName "Input username and password"
-AuthUserFile /etc/apache2/.htpasswd
-Require valid-user
-ErrorDocument 404 /404.html
+Options FollowSymLinks
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-f 
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /404.html [L]
+</IfModule>
+<ifModule mod_headers.c>
+    Header add Test "Test"
+</ifModule>
+
